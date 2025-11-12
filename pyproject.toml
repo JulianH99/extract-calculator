@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "extract-calculator"
+version = "0.1.0"
+dependencies = [
+    "pdfplumber",
+    "PyGObject"
+]
+
+[tool.basedpyright]
+include = ["src"]
+exclude = ["venv"]
+
+reportMissingTypeStubs = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false

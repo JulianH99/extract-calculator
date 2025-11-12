@@ -1,0 +1,67 @@
+# TODO: build list based on this comment
+# https://github.com/Taiko2k/GTK4PythonTutorial?tab=readme-ov-file#using-gridview
+from typing import final
+import gi
+
+from ..reader.parser import Record
+
+
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+from gi.repository import Gtk, Adw, Gio
+
+
+class MainApp(Adw.Application):
+    def __init__(self):
+        super().__init__(application_id="com.example.ExtractCalculator")
+        self.connect("activate", self.on_activate)
+
+    def on_activate(self, app: Adw.Application):
+        window = MainWindow()
+        app.add_window(window)
+        window.present()
+
+        self.assign_theme()
+
+    def assign_theme(self):
+        # theme
+        sm = self.get_style_manager()
+        sm.set_color_scheme(Adw.ColorScheme.PREFER_DARK)
+
+
+@final
+class MainWindow(Gtk.ApplicationWindow):
+    def __init__(self):
+        super().__init__(title="Extract Calculator")
+        self.set_default_size(1200, 600)
+
+        # Add a simple label
+
+        self.box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        self.open_button = Gtk.Button(label="Seleccionar PDF")
+        self.open_button.set_icon_name("document-open-symbolic")
+
+        self.header = Gtk.HeaderBar()
+        self.set_titlebar(self.header)
+
+        self.header.set_show_title_buttons(False)
+        self.header.pack_start(self.open_button)
+
+        self.set_child(self.box)
+
+        # table
+        self.selection_model = Gtk.SingleSelection()
+
+        self.table_list = Gtk.ListStore()
+        for i in range(10):
+            self.table_list.append((f"Item {i}",))
+
+        self.selection_model.set_model(self.table_list)
+
+        self.table.set_model(self.selection_model)
+
+        self.box.append(self.table)
+
+    def build_table(self, records: list[Record]):
+        # TODO: build list
+        pass
