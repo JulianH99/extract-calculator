@@ -17,3 +17,4 @@ exclude = ["venv"]
 reportMissingTypeStubs = false
 reportUnknownMemberType = false
 reportUnknownVariableType = false
+reportUnknownParameterType = false

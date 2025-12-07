@@ -6,12 +6,6 @@ from .reader.parser import parse_rows
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk, Adw
-
-
-def main() -> int:
-    app = MainApp()
-    return app.run(None)
 
 
 # def on_activate(app):
@@ -24,6 +18,9 @@ if __name__ == "__main__":
     rows = read_pdf_rows("./extracto.pdf")
     records = parse_rows(rows)
 
-    _ = main()
+    window = MainWindow(records)
+
+    app = MainApp(window=window)
+    app.run(None)
 
     # main()

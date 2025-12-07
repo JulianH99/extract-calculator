@@ -4,6 +4,7 @@ from typing import final
 import gi
 
 from ..reader.parser import Record
+from ..ui.table import build_table
 
 
 gi.require_version("Gtk", "4.0")
@@ -11,16 +12,16 @@ gi.require_version("Adw", "1")
 from gi.repository import Gtk, Adw, Gio
 
 
+@final
 class MainApp(Adw.Application):
-    def __init__(self):
+    def __init__(self, window: Gtk.ApplicationWindow = None):
         super().__init__(application_id="com.example.ExtractCalculator")
+        self.window = window
         self.connect("activate", self.on_activate)
 
     def on_activate(self, app: Adw.Application):
-        window = MainWindow()
-        app.add_window(window)
-        window.present()
-
+        app.add_window(self.window)
+        self.window.present()
         self.assign_theme()
 
     def assign_theme(self):
@@ -31,7 +32,7 @@ class MainApp(Adw.Application):
 
 @final
 class MainWindow(Gtk.ApplicationWindow):
-    def __init__(self):
+    def __init__(self, records: list[Record]):
         super().__init__(title="Extract Calculator")
         self.set_default_size(1200, 600)
 
@@ -47,21 +48,11 @@ class MainWindow(Gtk.ApplicationWindow):
         self.header.set_show_title_buttons(False)
         self.header.pack_start(self.open_button)
 
-        self.set_child(self.box)
-
         # table
-        self.selection_model = Gtk.SingleSelection()
+        self.scrollable = Gtk.ScrolledWindow()
+        self.table = build_table(records)
 
-        self.table_list = Gtk.ListStore()
-        for i in range(10):
-            self.table_list.append((f"Item {i}",))
-
-        self.selection_model.set_model(self.table_list)
-
-        self.table.set_model(self.selection_model)
-
-        self.box.append(self.table)
-
-    def build_table(self, records: list[Record]):
-        # TODO: build list
-        pass
+        self.scrollable.set_child(self.table)
+        self.scrollable.set_propagate_natural_height(True)
+        self.box.append(self.scrollable)
+        self.set_child(self.box)
