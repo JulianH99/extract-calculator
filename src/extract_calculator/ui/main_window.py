@@ -4,12 +4,11 @@ from typing import final
 import gi
 
 from ..reader.parser import Record
-from ..ui.table import build_table
-
+from ..ui.table import Table
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-from gi.repository import Gtk, Adw, Gio
+from gi.repository import Gtk, Adw  # pyright: ignore[reportAttributeAccessIssue]
 
 
 @final
@@ -50,9 +49,9 @@ class MainWindow(Gtk.ApplicationWindow):
 
         # table
         self.scrollable = Gtk.ScrolledWindow()
-        self.table = build_table(records)
+        self.table = Table(records)
 
-        self.scrollable.set_child(self.table)
+        self.scrollable.set_child(self.table.build())
         self.scrollable.set_propagate_natural_height(True)
         self.box.append(self.scrollable)
         self.set_child(self.box)

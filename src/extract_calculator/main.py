@@ -15,7 +15,7 @@ gi.require_version("Adw", "1")
 
 
 if __name__ == "__main__":
-    rows = read_pdf_rows("./extracto.pdf")
+    rows = read_pdf_rows("./extracto1.pdf")
     records = parse_rows(rows)
 
     window = MainWindow(records)

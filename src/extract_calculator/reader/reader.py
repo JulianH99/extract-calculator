@@ -53,6 +53,7 @@ def _join_date(rows: list[str]) -> list[str]:
 
 
 def _get_rows(text: str) -> list[str]:
+    text = text[text.find("pesos") :]
     table_start = text.find("Nuevosmovimientosentre")
     table_end = text.find("Movimientosantes")
 
