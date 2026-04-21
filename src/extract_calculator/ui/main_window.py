@@ -3,8 +3,9 @@
 from typing import final
 import gi
 
-from ..reader.parser import Record
-from ..ui.table import Table
+from ..reader.parser import Record, total_paid, total_to_pay, total_movement_value
+from .table import Table
+from .footer import Footer
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
@@ -54,4 +55,14 @@ class MainWindow(Gtk.ApplicationWindow):
         self.scrollable.set_child(self.table.build())
         self.scrollable.set_propagate_natural_height(True)
         self.box.append(self.scrollable)
+
+        # footer
+        self.footer = Footer()
+        self.footer.set_total(total_movement_value(records))
+        self.footer.set_total_paid(total_paid(records))
+        self.footer.set_total_left_to_pay(total_to_pay(records))
+
+
+        self.box.append(self.footer)
+
         self.set_child(self.box)

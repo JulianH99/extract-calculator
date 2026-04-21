@@ -142,9 +142,9 @@ class Table:
         list_view.set_model(selection)
 
         list_view.append_column(selected_column)
+        list_view.append_column(date_column)
         list_view.append_column(concept_column)
         list_view.append_column(movement_value_column)
-        list_view.append_column(date_column)
         list_view.append_column(paid_this_month_column)
         list_view.append_column(left_to_pay_column)
 
